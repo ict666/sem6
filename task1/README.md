@@ -1,5 +1,6 @@
-#Task1
-#Compilation on polus
+# Task1
+one-qubit transformation
+# Compilation on polus
 make polus
-#Compilation
+# Compilation
 make
