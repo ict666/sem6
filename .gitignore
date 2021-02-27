@@ -14,11 +14,8 @@
 # Executables
 *.exe
 
-# DUB
-.dub
-docs.json
-__dummy.html
-docs/
-
 # Code coverage
 *.lst
+
+# Mac problem
+.DS_Store
