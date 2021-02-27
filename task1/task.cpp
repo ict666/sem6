@@ -7,6 +7,7 @@
 #include <vector>
 #include <fstream>
 #include <omp.h>
+#include <random>
 
 typedef std::complex<double> complexd;
 
@@ -17,10 +18,13 @@ double drand(double min, double max) {
 
 void vec_gen(complexd *vec, unsigned long long size, int &threads) {
     double sum = 0;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> distr(0.0, 1.0);
 
 #pragma omp parallel for reduction(+: sum) num_threads(threads)
     for (unsigned long long i = 0; i < size; ++i) {
-        vec[i] = complexd(drand(20, 30), drand(20, 30));
+        vec[i] = complexd(distr(gen), distr(gen));
         double len = abs(vec[i]);
         sum += len * len;
     }
