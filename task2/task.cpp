@@ -76,7 +76,7 @@ complexd *vec_gen(unsigned &len, int &rank, int &comm_size) {
     return arr;
 }
 
-//transformation?
+//transformation
 void transform(complexd *vec, complexd *recv, complexd u[2][2], unsigned &len, int &k, int &rank, int &comm_size) {
     //len == 2^n, k - qbit number to transform
     int size = len / comm_size;
