@@ -90,7 +90,7 @@ void write_to_file(const char *filename, complexd *arr, unsigned &len, int &rank
 } */
 
 complexd *vec_gen(unsigned &len, int &rank, int &comm_size) {
-    srand(time(NULL));
+    srand(time(NULL) + rank);
     double abs = 0.0, abs_tot = 0.0;
     int size = len / comm_size;
     complexd *arr = new complexd[size];
@@ -152,7 +152,7 @@ double n_transform(complexd *vec, complexd *recv, complexd u[2][2], unsigned &le
 
 double n_noise_transform(complexd *vec, complexd *recv, complexd u[2][2], unsigned &len, int &rank, int &comm_size, int n) {
     // q == qbit, p == thetta, v == u noised
-    double p, start, end, time = 0;
+    double p;
     double start = MPI_Wtime();
     for (int q = 1; q < n + 1; ++q) {
         complexd v[2][2];
@@ -165,7 +165,6 @@ double n_noise_transform(complexd *vec, complexd *recv, complexd u[2][2], unsign
         v[0][1] = u[0][0] * sin(p) + u[0][1] * cos(p);
         v[1][0] = u[1][0] * cos(p) - u[1][1] * sin(p);
         v[1][1] = u[1][0] * sin(p) + u[1][1] * cos(p);
-        start = MPI_Wtime();
         transform(vec, recv, v, len, q, rank, comm_size);
     }
     double end = MPI_Wtime();
