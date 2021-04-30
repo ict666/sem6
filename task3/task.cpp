@@ -153,6 +153,7 @@ double n_transform(complexd *vec, complexd *recv, complexd u[2][2], unsigned &le
 double n_noise_transform(complexd *vec, complexd *recv, complexd u[2][2], unsigned &len, int &rank, int &comm_size, int n) {
     // q == qbit, p == thetta, v == u noised
     double p, start, end, time = 0;
+    double start = MPI_Wtime();
     for (int q = 1; q < n + 1; ++q) {
         complexd v[2][2];
         if (rank == 0) {
@@ -166,10 +167,9 @@ double n_noise_transform(complexd *vec, complexd *recv, complexd u[2][2], unsign
         v[1][1] = u[1][0] * sin(p) + u[1][1] * cos(p);
         start = MPI_Wtime();
         transform(vec, recv, v, len, q, rank, comm_size);
-        end = MPI_Wtime();
-        time += end - start;
     }
-    return time;
+    double end = MPI_Wtime();
+    return end - start;
 }
 
 double scalar_product(complexd *ideal, complexd *noise, int rank, unsigned long long seg_size) {
